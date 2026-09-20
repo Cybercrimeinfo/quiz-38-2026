@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- v1.0.3 | 20 sep 2026 -->
+<!-- v1.0.4 | 20 sep 2026 -->
 <html lang="nl">
 <head>
 <meta charset="utf-8">
@@ -38,7 +38,7 @@ const questions=[
 {q:"Welke gevangenisstraf kreeg een ransomwareontwikkelaar van een Zwitserse rechter?",options:["Drie jaar","Acht jaar","Tien jaar","Twaalf jaar en negen maanden"],correct:3,explanation:"De rechtbank legde twaalf jaar en negen maanden op. Tegen het vonnis kan nog beroep worden ingesteld."},
 {q:"Wat werd bij de Amerikaanse actie tegen deepfakewebsites in beslag genomen?",options:["Domeinen van twaalf sites met beelden van ongeveer 1.200 personen","1.200 servers","Twaalf telefoons","Eén domein met twaalf video's"],correct:0,explanation:"Het kantoor van de openbare aanklager van Manhattan nam twaalf domeinen in beslag. De sites gebruikten beelden van ongeveer 1.200 personen."},
 {q:"Hoeveel maatregelen en pijlers telt de vernieuwde handreiking van de VNG voor lokale weerbaarheid en veerkracht?",options:["17 maatregelen en vier pijlers","24 maatregelen en acht pijlers","41 maatregelen en zes pijlers","72 maatregelen en drie pijlers"],correct:2,explanation:"De handreiking bevat 41 maatregelen, verdeeld over zes essentiële pijlers."}
-];questions.forEach(q=>{Object.freeze(q.options);Object.freeze(q)});Object.freeze(questions);
+];questions.forEach(question=>{Object.freeze(question.options);Object.freeze(question)});Object.freeze(questions);
 let score=0,answered=0;const letters=['A','B','C','D'];
 function render(){const root=document.getElementById('quiz');root.innerHTML='';score=0;answered=0;update();questions.forEach((q,i)=>{const card=document.createElement('article');card.className='card';card.id='q'+i;card.innerHTML='<div class="number">Vraag '+(i+1)+' van '+questions.length+'</div><div class="question">'+q.q+'</div><div class="options">'+q.options.map((o,j)=>'<button class="option" id="q'+i+'o'+j+'" onclick="answer('+i+','+j+')"><span class="letter">'+letters[j]+'</span><span>'+o+'</span></button>').join('')+'</div><div class="feedback" id="fb'+i+'"></div>';root.appendChild(card)})}
 function answer(i,j){const q=questions[i],card=document.getElementById('q'+i);if(card.dataset.done)return;card.dataset.done='1';answered++;const ok=j===q.correct;if(ok)score++;q.options.forEach((_,k)=>{const el=document.getElementById('q'+i+'o'+k);el.classList.add('disabled');el.disabled=true;if(k===q.correct)el.classList.add('correct');if(k===j&&!ok)el.classList.add('wrong')});card.classList.add(ok?'good':'bad');const fb=document.getElementById('fb'+i);fb.className='feedback show '+(ok?'good':'bad');fb.textContent=(ok?'✓ Goed! ':'✗ Fout. ')+q.explanation;update();if(answered===questions.length)setTimeout(showResults,500)}
